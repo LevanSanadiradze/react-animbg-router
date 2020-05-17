@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Router from 'react-animbg-router';
+
+//Example Pages
 import Page1 from './Pages/1';
 import Page2 from './Pages/2';
 
@@ -7,6 +9,7 @@ export default class Index extends Component {
     constructor(props) {
         super(props);
 
+        //Define Backgrounds with their color and default positions.
         const backgroundObjs = [
             {
                 Color: 'cyan',
@@ -28,6 +31,7 @@ export default class Index extends Component {
             },
         ];
         
+        //Define pages, corresponding background target positions and transition duration
         const pages = [
             {
                 Foreground: <Page1/>,
@@ -78,31 +82,6 @@ export default class Index extends Component {
                         }
                     }
                 ]
-            },
-            {
-                Foreground: <Page1/>,
-                BackgroundData: [
-                    {
-                        Id: 0,
-                        Duration: 0.5,
-                        targetPosition: {
-                            Left: 200,
-                            Top: 200,
-                            Right: 200,
-                            Bottom: 0
-                        }
-                    },
-                    {
-                        Id: 1,
-                        Duration: 2,
-                        targetPosition: {
-                            Left: 500,
-                            Top: 100,
-                            Right: 0,
-                            Bottom: 200
-                        }
-                    }
-                ]
             }
         ];
 
@@ -118,7 +97,7 @@ export default class Index extends Component {
             this.setState({
                 Pageid: 1
             });
-        }, 5000);
+        }, 3000);
     }
 
     render() {
