@@ -33,22 +33,21 @@ class Example extends Component {
         //Define Backgrounds with their color and default positions.
         const backgroundObjs = [
             {
-                Color: 'cyan',
-                Position: {
-                    Left: -10,
-                    Top: 0,
-                    Right: '110%',
-                    Bottom: 0,
-                }
+                backgroundColor: 'cyan',
+                left: '110%',
+                right: '110%',
+                top: 0,
+                bottom: 0,
+                height: '100%',
+                zIndex: -100
             },
             {
-                Color: 'blue',
-                Position: {
-                    Left: '110%',
-                    Top: 100,
-                    Right: -10,
-                    Bottom: 100
-                }
+                backgroundColor: 'black',
+                left: '110%',
+                top: 100,
+                right: -10,
+                bottom: 100,
+                zIndex: -100
             },
         ];
         
@@ -60,21 +59,21 @@ class Example extends Component {
                     {
                         Id: 0,
                         Duration: 0.5,
-                        targetPosition: {
-                            Left: 500,
-                            Top: 0,
-                            Right: 50,
-                            Bottom: 0
+                        TargetStyle: {
+                            left: 500,
+                            right: 50,
+                            top: 50,
+                            height: '25%'
                         }
                     },
                     {
                         Id: 1,
                         Duration: 1.2,
-                        targetPosition: {
-                            Left: 300,
-                            Top: 100,
-                            Right: 300,
-                            Bottom: 200
+                        TargetStyle: {
+                            left: 300,
+                            top: 100,
+                            right: 300,
+                            bottom: 200
                         }
                     }
                 ]
@@ -85,21 +84,21 @@ class Example extends Component {
                     {
                         Id: 0,
                         Duration: 1,
-                        targetPosition: {
-                            Left: 10,
-                            Top: 0,
-                            Right: 50,
-                            Bottom: 0
+                        TargetStyle: {
+                            left: 10,
+                            top: 0,
+                            right: 50,
+                            bottom: 0
                         }
                     },
                     {
                         Id: 1,
                         Duration: 2,
-                        targetPosition: {
-                            Left: 800,
-                            Top: 0,
-                            Right: 0,
-                            Bottom: 0
+                        TargetStyle: {
+                            left: 800,
+                            top: 0,
+                            right: 0,
+                            bottom: 0
                         }
                     }
                 ]

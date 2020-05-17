@@ -1,150 +1,91 @@
 import React, { Component, Fragment } from 'react';
 import styled from '@emotion/styled';
 
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-function _taggedTemplateLiteralLoose(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  strings.raw = raw;
-  return strings;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteralLoose(["\n    position: absolute;\n\n    background-color: ", ";\n\n    top: ", ";\n    bottom: ", ";\n    left: ", ";\n    right: ", ";\n\n    z-index: ", ";\n\n    transition-property: all;\n    transition-timing-function: ease-in-out;\n    transition-duration: ", "s;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-var BgObj = styled.div(_templateObject(), function (props) {
-  return props.Color;
-}, function (props) {
-  return props.Top;
-}, function (props) {
-  return props.Bottom;
-}, function (props) {
-  return props.Left;
-}, function (props) {
-  return props.Right;
-}, function (props) {
-  return props.zIndex;
-}, function (props) {
-  return props.TransitionDuration;
-});
-
-var BackgroundObject = /*#__PURE__*/function (_Component) {
-  _inheritsLoose(BackgroundObject, _Component);
-
-  function BackgroundObject() {
-    var _this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-
-    _this.prepPosVal = function (val) {
-      return typeof val == 'number' ? val + 'px' : val;
-    };
-
-    return _this;
-  }
-
-  var _proto = BackgroundObject.prototype;
-
-  _proto.render = function render() {
+let _ = t => t,
+    _t;
+const BgObj = styled.div(_t || (_t = _`
+    position: absolute;
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+    transition-duration: ${0}s;
+`), props => props.TransitionDuration);
+class BackgroundObject extends Component {
+  render() {
     return /*#__PURE__*/React.createElement(BgObj, {
-      Color: this.props.Color,
-      Top: this.prepPosVal(this.props.Top),
-      Bottom: this.prepPosVal(this.props.Bottom),
-      Left: this.prepPosVal(this.props.Left),
-      Right: this.prepPosVal(this.props.Right),
-      zIndex: this.props.zIndex || -100,
+      style: this.props.style,
       TransitionDuration: this.props.TransitionDuration
     });
-  };
+  }
 
-  return BackgroundObject;
-}(Component);
+}
 
-var Index = /*#__PURE__*/function (_Component) {
-  _inheritsLoose(Index, _Component);
+class Index extends Component {
+  constructor(props) {
+    super(props);
 
-  function Index(props) {
-    var _this;
+    this.convertBgObjsToBgData = p => {
+      const data = [];
+      p.forEach(e => {
+        data.push({
+          Style: e
+        });
+      });
+      return data;
+    };
 
-    _this = _Component.call(this, props) || this;
-
-    _this.getBackgroundObjects = function (objs) {
-      return objs.map(function (e, i) {
+    this.getBackgroundComponents = () => {
+      return this.state.BackgroundsData.map((e, i) => {
         return /*#__PURE__*/React.createElement(BackgroundObject, {
           key: "Router_BackgrounObjects_" + i,
-          Color: e.Color,
-          Top: e.Position.Top,
-          Bottom: e.Position.Bottom,
-          Left: e.Position.Left,
-          Right: e.Position.Right,
+          style: e.Style,
           TransitionDuration: e.TransitionDuration
         });
       });
     };
 
-    _this.checkPageChange = function () {
-      if (_this.props.Pageid != _this.state.CurrentPageId) {
-        _this.changePage(_this.props.Pageid);
+    this.checkPageChange = () => {
+      if (this.props.Pageid != this.state.CurrentPageId) {
+        this.changePage(this.props.Pageid);
       }
     };
 
-    _this.changePage = function (newid) {
-      var newpage = _this.state.PagesData[newid];
-      var newBgData = _this.state.BackgroundsData;
-      newpage.BackgroundData.forEach(function (e) {
-        newBgData[e.Id].Position = e.targetPosition;
+    this.changePage = newid => {
+      const newpage = this.state.PagesData[newid];
+      const newBgData = this.state.BackgroundsData;
+      newpage.BackgroundData.forEach(e => {
+        newBgData[e.Id].Style = { ...newBgData[e.Id].Style,
+          ...e.TargetStyle
+        };
         newBgData[e.Id].TransitionDuration = e.Duration;
       });
-
-      _this.setState({
+      this.setState({
         BackgroundsData: newBgData,
         CurrentPage: newpage.Foreground,
         CurrentPageId: newid
       });
     };
 
-    _this.state = {
+    this.state = {
       CurrentPageId: null,
       CurrentPage: null,
-      BackgroundsData: props.BackgroundObjects,
+      BackgroundsData: this.convertBgObjsToBgData(props.BackgroundObjects),
       PagesData: props.Pages
     };
-    return _this;
   }
 
-  var _proto = Index.prototype;
-
-  _proto.componentDidMount = function componentDidMount() {
+  componentDidMount() {
     this.checkPageChange();
-  };
+  }
 
-  _proto.componentDidUpdate = function componentDidUpdate() {
+  componentDidUpdate() {
     this.checkPageChange();
-  };
+  }
 
-  _proto.render = function render() {
-    return /*#__PURE__*/React.createElement(Fragment, null, this.getBackgroundObjects(this.state.BackgroundsData), this.state.CurrentPage);
-  };
+  render() {
+    return /*#__PURE__*/React.createElement(Fragment, null, this.getBackgroundComponents(), this.state.CurrentPage);
+  }
 
-  return Index;
-}(Component);
+}
 
 export default Index;
 //# sourceMappingURL=index.modern.js.map

@@ -8,33 +8,41 @@ export default class Index extends Component {
         this.state = {
             CurrentPageId: null,
             CurrentPage: null,
-            BackgroundsData: props.BackgroundObjects,
+            BackgroundsData: this.convertBgObjsToBgData(props.BackgroundObjects),
             PagesData: props.Pages
         };
+    }
+
+    convertBgObjsToBgData = (p) => {
+        const data = [];
+
+        p.forEach((e) => {
+            data.push({
+                Style: e
+            });
+        });
+
+        return data;
     }
 
     componentDidMount() {
         this.checkPageChange();
     }
 
-    getBackgroundObjects = (objs) => {
-        return objs.map((e, i) => {
+    componentDidUpdate() {
+        this.checkPageChange();
+    }
+
+    getBackgroundComponents = () => {
+        return this.state.BackgroundsData.map((e, i) => {
             return (
                 <BackgroundObject
                     key={ "Router_BackgrounObjects_" + i }
-                    Color={ e.Color }
-                    Top={ e.Position.Top }
-                    Bottom={ e.Position.Bottom }
-                    Left={ e.Position.Left }
-                    Right={ e.Position.Right }
+                    style={ e.Style }
                     TransitionDuration={ e.TransitionDuration }
                 />
             );
         });
-    }
-
-    componentDidUpdate() {
-        this.checkPageChange();
     }
 
     checkPageChange = () => {
@@ -49,7 +57,7 @@ export default class Index extends Component {
         const newBgData = this.state.BackgroundsData;
 
         newpage.BackgroundData.forEach((e) => {
-            newBgData[e.Id].Position = e.targetPosition;
+            newBgData[e.Id].Style = {...newBgData[e.Id].Style, ...e.TargetStyle};
             newBgData[e.Id].TransitionDuration = e.Duration;
         });
 
@@ -63,7 +71,7 @@ export default class Index extends Component {
     render() {
         return (
             <Fragment>
-                { this.getBackgroundObjects(this.state.BackgroundsData) }
+                { this.getBackgroundComponents() }
                 { this.state.CurrentPage }
             </Fragment>
         );

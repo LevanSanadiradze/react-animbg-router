@@ -4,6 +4,24 @@ var React = require('react');
 var React__default = _interopDefault(React);
 var styled = _interopDefault(require('@emotion/styled'));
 
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
@@ -20,7 +38,7 @@ function _taggedTemplateLiteralLoose(strings, raw) {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteralLoose(["\n    position: absolute;\n\n    background-color: ", ";\n\n    top: ", ";\n    bottom: ", ";\n    left: ", ";\n    right: ", ";\n\n    z-index: ", ";\n\n    transition-property: all;\n    transition-timing-function: ease-in-out;\n    transition-duration: ", "s;\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n    position: absolute;\n    transition-property: all;\n    transition-timing-function: ease-in-out;\n    transition-duration: ", "s;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -29,18 +47,6 @@ function _templateObject() {
   return data;
 }
 var BgObj = styled.div(_templateObject(), function (props) {
-  return props.Color;
-}, function (props) {
-  return props.Top;
-}, function (props) {
-  return props.Bottom;
-}, function (props) {
-  return props.Left;
-}, function (props) {
-  return props.Right;
-}, function (props) {
-  return props.zIndex;
-}, function (props) {
   return props.TransitionDuration;
 });
 
@@ -48,31 +54,14 @@ var BackgroundObject = /*#__PURE__*/function (_Component) {
   _inheritsLoose(BackgroundObject, _Component);
 
   function BackgroundObject() {
-    var _this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-
-    _this.prepPosVal = function (val) {
-      return typeof val == 'number' ? val + 'px' : val;
-    };
-
-    return _this;
+    return _Component.apply(this, arguments) || this;
   }
 
   var _proto = BackgroundObject.prototype;
 
   _proto.render = function render() {
     return /*#__PURE__*/React__default.createElement(BgObj, {
-      Color: this.props.Color,
-      Top: this.prepPosVal(this.props.Top),
-      Bottom: this.prepPosVal(this.props.Bottom),
-      Left: this.prepPosVal(this.props.Left),
-      Right: this.prepPosVal(this.props.Right),
-      zIndex: this.props.zIndex || -100,
+      style: this.props.style,
       TransitionDuration: this.props.TransitionDuration
     });
   };
@@ -88,15 +77,21 @@ var Index = /*#__PURE__*/function (_Component) {
 
     _this = _Component.call(this, props) || this;
 
-    _this.getBackgroundObjects = function (objs) {
-      return objs.map(function (e, i) {
+    _this.convertBgObjsToBgData = function (p) {
+      var data = [];
+      p.forEach(function (e) {
+        data.push({
+          Style: e
+        });
+      });
+      return data;
+    };
+
+    _this.getBackgroundComponents = function () {
+      return _this.state.BackgroundsData.map(function (e, i) {
         return /*#__PURE__*/React__default.createElement(BackgroundObject, {
           key: "Router_BackgrounObjects_" + i,
-          Color: e.Color,
-          Top: e.Position.Top,
-          Bottom: e.Position.Bottom,
-          Left: e.Position.Left,
-          Right: e.Position.Right,
+          style: e.Style,
           TransitionDuration: e.TransitionDuration
         });
       });
@@ -112,7 +107,7 @@ var Index = /*#__PURE__*/function (_Component) {
       var newpage = _this.state.PagesData[newid];
       var newBgData = _this.state.BackgroundsData;
       newpage.BackgroundData.forEach(function (e) {
-        newBgData[e.Id].Position = e.targetPosition;
+        newBgData[e.Id].Style = _extends(_extends({}, newBgData[e.Id].Style), e.TargetStyle);
         newBgData[e.Id].TransitionDuration = e.Duration;
       });
 
@@ -126,7 +121,7 @@ var Index = /*#__PURE__*/function (_Component) {
     _this.state = {
       CurrentPageId: null,
       CurrentPage: null,
-      BackgroundsData: props.BackgroundObjects,
+      BackgroundsData: _this.convertBgObjsToBgData(props.BackgroundObjects),
       PagesData: props.Pages
     };
     return _this;
@@ -143,7 +138,7 @@ var Index = /*#__PURE__*/function (_Component) {
   };
 
   _proto.render = function render() {
-    return /*#__PURE__*/React__default.createElement(React.Fragment, null, this.getBackgroundObjects(this.state.BackgroundsData), this.state.CurrentPage);
+    return /*#__PURE__*/React__default.createElement(React.Fragment, null, this.getBackgroundComponents(), this.state.CurrentPage);
   };
 
   return Index;
