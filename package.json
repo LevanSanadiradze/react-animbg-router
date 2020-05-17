@@ -1,6 +1,6 @@
 {
   "name": "react-animbg-router",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "React custom router with background blocks animated during transitions",
   "author": "LevanSanadiradze",
   "license": "MIT",
@@ -24,9 +24,9 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
     "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27"
+    "@emotion/styled": "^10.0.27",
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
