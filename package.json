@@ -1,6 +1,6 @@
 {
   "name": "react-animbg-router",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React custom router with background blocks animated during transitions",
   "author": "LevanSanadiradze",
   "license": "MIT",
